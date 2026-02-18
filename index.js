@@ -2,13 +2,17 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
+import userRoutes from "./routes/user.routes.js";
+import postRoutes from "./routes/post.routes.js";
+
 const app = express();
 dotenv.config();
+app.use(express.json());
+
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
-// import userRoutes from "./routes/user.routes";
-// import postRoutes from "./routes/post.routes.js";
+
 mongoose
   .connect(MONGO_URI)
   .then(() => {

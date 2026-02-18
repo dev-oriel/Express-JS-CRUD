@@ -1,5 +1,6 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
+import User from "../models/user.model.js";
 
 // router.get("/", (req, res) => {
 //   console.log("users list");
@@ -13,8 +14,15 @@ router.get("/", (req, res) => {
   res.send("Fetch all user");
 });
 // Create a new user
-router.post("/new", (req, res) => {
-  res.send("Creating new user");
+router.post("/", async (req, res) => {
+  try {
+    const newUser = await User.create(req.body);
+    res.status(200).json(newUser);
+    console.log(`${User.name} user created successfully`);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json(error);
+  }
 });
 
 // // get one user
@@ -46,4 +54,5 @@ router
   .delete((req, res) => {
     res.send("Delete a user");
   });
-module.exports = router;
+
+export default router;
