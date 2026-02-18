@@ -12,7 +12,6 @@ app.use(express.json());
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
-
 mongoose
   .connect(MONGO_URI)
   .then(() => {
@@ -27,7 +26,7 @@ app.get("/", (req, res) => {
   console.log("server running");
   res.status(200).json({ message: "Success" });
 });
-// app.use("/users", userRoutes);
-// app.use("/posts", postRoutes);
+app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
 
 // app.listen(5000);
