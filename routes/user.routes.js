@@ -1,4 +1,5 @@
 import express from "express";
+import bcrypt from "bcrypt";
 const router = express.Router();
 import User from "../models/user.model.js";
 
@@ -22,9 +23,18 @@ router.get("/", async (req, res) => {
 // Create a new user
 router.post("/", async (req, res) => {
   try {
+    const email = req.body.email;
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      res.status(400).json({ message: "user with that email exists" });
+    }
     const newUser = await User.create(req.body);
-    res.status(200).json(newUser);
+
     console.log(`${req.body.name} user created successfully`);
+    res.status(200).json(newUser);
+
+    return;
   } catch (error) {
     console.log(error.message);
     res.status(500).json(error);
